@@ -1,0 +1,1473 @@
+\documentclass[8pt,a5paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[left=1cm, right=1cm, top=1cm, bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{soul}
+\usepackage{longtable}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{pdflscape}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float} 
+\usepackage{subcaption}
+
+
+
+
+\setstretch{1.5}
+
+% Define a new command for TOC lines with dots and page numbers aligned right
+\newcommand{\tocline}[2]{%
+  #1 \dotfill \hfill #2%
+}
+
+\begin{document}
+
+\begin{center}
+  % Two images side by side
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=2.13in]{FIGURES/media/image2.png}
+  \end{minipage}
+  \hspace{0.05\textwidth}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=2.13in]{FIGURES/media/image3.png}
+  \end{minipage}
+
+  \vspace{1em}
+
+  {\Large \textbf{MASTER PHYSIQUE DE LA MATIÈRE}}
+
+  \vspace{1em}
+
+  ANALYSE DES HUBS DANS LES RÉSEAUX SANS ÉCHELLE VIA LE MODÈLE DE CONFIGURATION.
+
+  \vspace{1em}
+
+  \textbf{(DANS LE CADRE DES RÉSEAUX COMPLEXES)}
+
+  \vspace{1em}
+
+  Année Universitaire : 2024/2025
+
+  \vspace{1em}
+
+  \textbf{PRÉSENTÉ PAR : ANASS LABOUDI}
+
+  \vspace{1em}
+
+  \textbf{ENCADRÉ PAR : PR. AHMAD LACHGAR}
+
+  \vspace{1em}
+
+  SOUTENU LE 01/07/2025
+\end{center}
+
+\newpage
+
+\subsubsection*{\textbf{REMERCIEMENTS}}
+
+Je remercie de tout cœur mes parents et ma famille pour leur amour, leur soutien et leurs prières tout au long de mon parcours.
+
+Je remercie aussi mes amis pour leur présence, leurs encouragements et leur aide précieuse.
+
+Je tiens à exprimer ma reconnaissance à mon enseignant et encadrant, \textbf{Pr. Ahmad Lachgar}, pour son aide, sa disponibilité et ses conseils durant ce travail.
+
+Enfin, j'adresse mes meilleurs vœux à toute la communauté de la faculté, étudiants et enseignants, et je demande à \textbf{Allah} de nous bénir et de nous accorder réussite et paix.
+
+\newpage
+
+\section*{\textbf{TABLE DES MATIÈRES}}
+
+\vspace{1em}
+
+\begin{tabularx}{\textwidth}{@{}Xr@{}}
+\textbf{Introduction générale} & 1 \\
+\textbf{Chapitre 1 : Introduction aux réseaux complexes} & 4 \\
+1.1 Définition et concepts de base & 4 \\
+1.2 Bref historique et naissance de l'étude des réseaux & 5 \\
+1.3 Quelques Propriétés générales des réseaux complexes & 8 \\
+1.4 Exemples de réseaux réels & 11 \\
+\textbf{Chapitre 2 : Les réseaux sans échelle} & 14 \\
+2.1 Loi de puissance et distributions de degré & 14 \\
+2.2 Effet de la taille du réseau sur le degré maximal & 17 \\
+2.3 Signification de Sans échelle & 21 \\
+\textbf{Chapitre 3 : Le modèle de configuration d'un réseau sans échelle} & 23 \\
+3.1 Introduction & 23 \\
+3.2 Probabilité d'un lien dans le modèle de configuration & 25 \\
+3.3 Distribution de degrés excédents & 27 \\
+3.4 Simulation d'une variable aléatoire & 30 \\
+3.5 Modèle de paramètre caché & 33 \\
+3.6 Modèle de Chung Lu & 35 \\
+\textbf{Chapitre 4 : Comparaison des résultats analytique Vs simulation} & 36 \\
+Conclusion générale & 21 \\
+Bibliographie & 21 \\
+Annexes (si applicable) & 22 \\
+\end{tabularx}
+\newpage
+\subsection{Introduction Générale}\label{introduction-generale}
+
+Les réseaux complexes constituent aujourd'hui un domaine de recherche
+dynamique et interdisciplinaire, offrant un cadre unificateur pour
+modéliser et analyser de nombreux systèmes où les interactions entre
+éléments sont déterminantes. On les rencontre dans les réseaux sociaux
+(relations humaines), biologiques (interactions protéiques ou
+neuronales), technologiques (Internet, réseaux électriques), économiques
+(flux financiers), ainsi que dans des structures abstraites comme les
+réseaux de connaissances ou sémantiques. Cette universalité confère aux
+approches en théorie des réseaux un pouvoir explicatif et prédictif
+essentiel pour étudier la structure, la dynamique et les phénomènes
+émergents au sein de systèmes complexes.
+
+Historiquement, l'étude formelle des réseaux remonte au XVIII\textsuperscript{e} siècle
+avec le problème des ponts de Königsberg résolu par Leonhard Euler
+(1736), qui a posé les bases de la théorie des graphes. Jusqu'à la fin
+du XX\textsuperscript{e} 
+ siècle, les graphes étaient principalement étudiés sous un angle
+combinatoire ou purement mathématique. L'émergence des « réseaux
+complexes » en tant que discipline est apparue à l'intersection de la
+physique statistique, des mathématiques, de l'informatique et de
+nombreuses applications concrètes. Parmi les jalons majeurs :
+
+\begin{itemize}
+\item Modèles aléatoires de graphes (Erdős \& Rényi, 1959), introduisant une
+  approche statistique de la génération de réseaux.
+\item Phénomène de « petits mondes » mis en évidence par Milgram (1967) et
+  formalisé par Watts \& Strogatz (1998), révélant que de nombreux
+  réseaux réels combinent faible distance moyenne et fort coefficient de
+  regroupement (clustering).
+\item Réseaux sans échelle (scale-free) mis en lumière par Barabási \&
+  Albert (1999), montrant que la distribution de degré suit souvent une
+  loi de puissance et engendre l'apparition de « hubs » fortement
+  connectés.
+\item Développement d'outils analytiques et de simulations pour étudier
+  l'impact de ces caractéristiques sur la robustesse, la diffusion
+  d'information ou la propagation d'épidémies.
+\end{itemize}
+
+Cette évolution a conduit à l'étude de modèles capables de reproduire ou
+d'imposer des distributions de degré spécifiques. Le modèle de
+configuration génère des graphes à partir d'une séquence de degrés
+prescrite, offrant un schéma aléatoire d'appariement des « stubs ». Il
+permet d'explorer analytiquement et par simulation l'influence de la
+distribution de degré sur les propriétés structurelles, notamment les valeurs extrêmes telles que les
+plus hauts degrés (hubs) et les plus faibles. Le modèle de Chung--Lu,
+quant à lui, assigne à chaque paire de nœuds une probabilité de
+connexion proportionnelle au produit de leurs degrés attendus,
+conservant la distribution de degrés en moyenne et offrant une approche
+souple pour les grands réseaux clairsemés, tout en facilitant l'analyse
+statistique de certaines propriétés.
+
+L'objectif de ce mémoire est d'analyser les propriétés des hubs et des
+degrés minimums dans des réseaux sans échelle générés par le modèle de
+configuration, et de comparer les prédictions analytiques aux résultats
+de simulations numériques. Plus précisément, il s'agit de :
+
+\begin{enumerate}
+\item Dériver, lorsque cela est possible, des expressions analytiques pour
+  les valeurs extrêmes de degré (maximal et minimal) en 
+ ... fonction de la taille du réseau N et de l'exposant de la loi de puissance $\gamma$.
+
+\item Implémenter des simulations du modèle de configuration pour différents
+  jeux de paramètres et mesurer empiriquement ces quantités extrêmes.
+\item Confronter les résultats analytiques et simulés, évaluer les écarts
+  (effets de taille finie, limites des approximations), et discuter des
+  implications pour la modélisation de réseaux réels.
+\end{enumerate}
+
+Le mémoire se structure ainsi :
+
+\begin{itemize}
+\item \textbf{Chapitre 1 : Introduction aux réseaux complexes}\\
+  Définitions de base, terminologie, quelques propriétés principales
+  topologiques (Distribution des degrés, clustering, chemin moyen) et
+  mise en perspective du domaine.
+\item \textbf{Chapitre 2 : Réseaux sans échelle}\\
+  Lois de puissance pour la distribution des degrés, propriétés
+  structurelles et dynamiques liées aux hubs, signification de Sans
+  échelle.
+\item \textbf{Chapitre 3 : Modèle de configuration et modèle de Chung--Lu}\\
+  Principes de génération pour une distribution donnée.
+\item \textbf{Chapitre 4 : Comparaison analytique vs simulations}\\
+  Dérivations analytiques détaillées, protocole de simulation en Python,
+  résultats empiriques, analyse des écarts et discussion des
+  implications.
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Conclusion générale}\\
+Synthèse des résultats, limites de l'étude et pistes pour des travaux
+futurs (extensions possibles, prise en compte de corrélations de degré,
+applications à des cas concrets, etc.).
+
+Cette démarche combinant théorie et simulation vise à approfondir la
+compréhension des facteurs déterminant la présence et l'importance des
+hubs dans des réseaux sans échelle, et plus largement à illustrer
+l'intérêt du modèle de configuration pour l'analyse de réseaux
+complexes.
+
+\subsection{Références principales suggérées}\label{references-principales-suggerees}
+
+\begin{itemize}
+\item Euler, L. (1736). \emph{Solutio problematis ad geometriam situs
+  pertinentis}.
+\item Erdős, P., \& Rényi, A. (1959). On random graphs I.
+  \emph{Publicationes Mathematicae (Debrecen)}, 6, 290--297.
+\item Milgram, S. (1967). The small-world problem. \emph{Psychology Today},
+  1(1), 61--67.
+\item Watts, D. J., \& Strogatz, S. H. (1998). Collective dynamics of
+  `small-world' networks. \emph{Nature}, 393(6684), 440--442.
+\item Barabási, A.-L., \& Albert, R. (1999). Emergence of scaling in random
+  networks. \emph{Science}, 286(5439), 509--512.
+\item Albert, R., \& Barabási, A.-L. (2002). Statistical mechanics of
+  complex networks. \emph{Reviews of Modern Physics}, 74(1), 47--94.
+\end{itemize}
+\newpage.
+\begin{center}
+    \section*{Chapitre 1 :\\ Introduction aux réseaux complexes}
+    \vspace{1em}
+\end{center}
+\newpage
+
+
+
+\subsection*{1.1 Définition et concepts de base}
+\addcontentsline{toc}{subsection}{1.1 Définition et concepts de base}
+
+Un \textbf{réseau} (ou graphe) se définit formellement comme un ensemble de nœuds (ou sommets) reliés par des liens (ou arêtes). Cette abstraction permet de modéliser toute situation où des entités interagissent ou sont connectées.
+
+\begin{itemize}
+  \item \textbf{Nœuds} : peuvent représenter des individus, des protéines, des serveurs, des soleils, etc.
+\end{itemize}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{FIGURES/media/image4.png}
+\emph{\\figure : Exemple de réseau montrant un nœud (flèche rouge) et une arête (flèche bleue).}
+\end{center}
+
+\begin{itemize}
+  \item \textbf{Liens} : représentent une relation, une interaction ou un flux entre deux nœuds ; ce lien peut être conceptuel ou informationnel, et n'est pas nécessairement de nature matérielle (par exemple, lien d'amitié, corrélation, dépendance fonctionnelle, etc.).
+\end{itemize}
+
+\vspace{1em}
+
+\begin{center}
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image5.png}
+\hfill
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image6.png}
+
+\emph{figure : Zachary's Karate Club Network}
+\end{center}
+
+
+\subsubsection{1.2 Bref historique et naissance de l'étude des
+réseaux}\label{bref-historique-et-naissance-de-luxe9tude-des-ruxe9seaux}
+
+L’étude formelle des réseaux débute véritablement avec Leonhard Euler en 1736 et son célèbre problème des sept ponts de Königsberg, qui posa les fondements de la théorie des graphes en montrant qu’il n’existait pas de parcours simple permettant de traverser une fois chaque pont. Cette approche pionnière était avant tout mathématique et combinatoire, centrée sur l’analyse de l’existence et du dénombrement de chemins, sans véritable perspective applicative à grande échelle.
+\begin{center}
+\includegraphics[width=4.6in,height=1.64583in]{FIGURES/media/image7.png}
+\emph{\\FIG : Seven Bridges of Konigsberg}
+\end{center}
+Au XIX\textsuperscript{e} siècle la théorie des graphes évolue discrètement au gré des travaux en topologie et en électrotechnique (notamment avec Gustav Kirchhoff et ses lois sur les réseaux électriques), avant de connaître un essor soutenu au XX\textsuperscript{e} siècle
+ dans le cadre des mathématiques discrètes et de la recherche opérationnelle.
+
+\begin{itemize}
+\item
+  \emph{\textbf{XX\textsuperscript{e} siècle}}
+~: développement de la théorie des graphes
+  en mathématiques discrètes.
+\end{itemize}
+\begin{itemize}
+\item
+  \textbf{Modèles aléatoires} (Erdős \& Rényi, \emph{1959})~: première
+  approche statistique, générant des graphes selon une probabilité
+  uniforme d'arête.
+\end{itemize}
+\begin{itemize}
+\item
+  \textbf{Phénomène ``Small-world''} (Milgram, \emph{1967}~; Watts \&
+  Strogatz, \emph{1998})~: observation que de nombreux réseaux réels ont
+  de faibles distances moyennes et un fort coefficient de clustering.
+\end{itemize}
+\begin{itemize}
+  \item \textbf{Réseaux sans échelle (Barabási \& Albert, 1999)} : observation de distributions de degré suivant une loi de puissance et émergence de hubs très connectés.
+
+  \item \textbf{Évolutions récentes et enjeux} :
+  \begin{itemize}
+    \item Analyse des communautés (détection de modules) pour comprendre la modularité et identifier des groupes fonctionnels dans divers contextes.
+    \item Réseaux dynamiques et temporels, où les arêtes évoluent au cours du temps (propagation d’épidémies, trafic Internet).
+    \item Réseaux multiplexes, caractérisés par plusieurs types de liens entre les mêmes nœuds (relations sociales, économiques, biologiques).
+    \item Applications interdisciplinaires : biologie (réseaux de gènes ou de protéines), informatique (architecture Internet, réseaux pair-à-pair), sociologie, logistique, écologie...
+  \end{itemize}
+\end{itemize}
+
+\vspace{1em}
+\newpage
+\begin{center}
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image8.png}
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image9.png}
+\emph{\\figure Graphe de petit monde (modèle Watts- Strogatz) et sa distribution des degrés, générés par Python (n=50 nombre des nœuds)}
+\end{center}
+\begin{center}
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image10.png}
+\hfill
+\includegraphics[width=0.45\textwidth]{FIGURES/media/image11.png}
+\emph{\\figure : Graphe d'Erdős–Rényi généré en Python et sa distribution des degrés, qui suit une loi de Poisson.}
+\end{center}
+
+\begin{center}
+\includegraphics[width=0.48\textwidth]{FIGURES/media/image12.png}
+\hfill
+\includegraphics[width=0.42\textwidth]{FIGURES/media/image13.png}
+\emph{\\figure: Graphe scale-free (Barabási–Albert) avec 50 nœuds et sa distribution des degrés, générés par Python (NetworkX, Matplotlib).}
+\end{center}
+
+\subsubsection{1.3 Quelques propriétés générales des réseaux complexes}
+\label{quelques-proprietes-generales-des-reseaux-complexes}
+
+Plusieurs mesures clés caractérisent la topologie d'un réseau :
+
+\paragraph{1.3.1 Distribution de degré\\}
+
+Il existe différents types de réseaux (orientés, pondérés\textsuperscript{1}, etc.), mais ici on se concentre sur les réseaux non orientés et non pondérés.
+
+\begin{center}
+\includegraphics[width=0.65\textwidth]{FIGURES/media/image14.png}
+\emph{\\figure : Réseau du club de Zachary avec les nœuds étiquetés [3]}
+
+\end{center}
+
+\noindent\textbf{Définition} : Pour chaque nœud, le degré \emph{\textbf{K}} correspond au nombre d'arêtes qui le relient à d'autres nœuds (pas nécessairement "incidentes" au sens physique, mais simplement connectées dans le graphe).\\
+Par exemple, dans le réseau de \textbf{Zachary}, le degré du nœud 25 est \emph{\textbf{$K_{25}=3$}}, celui du nœud 16 est \emph{\textbf{$K_{16}=2$}}, et \emph{\textbf{$K_{34}=17$}}, etc.
+
+
+\begin{itemize}
+  \item \textbf{Réseaux aléatoires classiques (Erdős--Rényi)} : dans ce modèle, chaque paire de nœuds est reliée avec une certaine probabilité \(p\).
+\end{itemize}
+
+La distribution des degrés suit une \textbf{loi binomiale} :
+
+\[
+P(k) = \binom{N - 1}{k} p^{k} (1 - p)^{(N - 1) - k}
+\]
+
+Lorsque \(N\) est grand et \(p\) est petit, tout en maintenant le degré moyen\\
+\(\langle k \rangle = p (N - 1)\) constant, cette loi peut être approximée par une \textbf{loi de Poisson} :
+
+\[
+P(k) \approx \frac{\langle k \rangle^{k} e^{- \langle k \rangle}}{k!}
+\]
+
+Ce type de réseau présente une structure relativement homogène : la plupart des nœuds ont des degrés similaires, ce qui limite la formation de nœuds fortement centraux. En conséquence, les \textbf{valeurs de centralité d'intermédiarité (betweenness centrality)} y sont généralement faibles et réparties de manière assez uniforme.
+
+La \textbf{centralité d'intermédiarité} d'un nœud \(v\), notée \(C_B(v)\), est définie comme suit :
+
+\[
+C_B(v) = \sum_{\substack{s \neq t \\ s \neq v \\ t \neq v}} \frac{\sigma_{st}(v)}{\sigma_{st}}
+\]
+
+où :
+
+\begin{itemize}[leftmargin=5em]
+  \item \(\sigma_{st}\) est le nombre total de plus courts chemins entre les nœuds \(s\) et \(t\),
+  \item \(\sigma_{st}(v)\) est le nombre de ces chemins passant par le nœud \(v\).
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Réseaux sans échelle} : Ces réseaux se caractérisent par une distribution des degrés suivant une \textbf{loi de puissance} :
+\end{itemize}
+\[
+P(k) \sim k^{-\gamma}
+\]
+
+Ce type de distribution implique l'existence de quelques nœuds très connectés — appelés \textbf{hubs} — qui jouent un rôle central dans la structure du réseau. Ces hubs présentent également des \textbf{valeurs élevées de centralité d'intermédiarité}, car ils se situent souvent sur les plus courts chemins reliant de nombreuses paires de nœuds. Cela confère au réseau une forte vulnérabilité ciblée (en cas de suppression de hubs), mais aussi une excellente efficacité pour la diffusion de l'information.
+
+\textbf{Remarque} : La \textbf{loi de puissance} sera détaillée plus précisément dans les chapitres suivants.
+
+\begin{center}
+\includegraphics[width=0.65\textwidth]{FIGURES/media/image15.png}
+
+\emph{Figure 1.7 : Comparaison entre une loi de puissance et une loi de Poisson, générée par Python (NetworkX, Matplotlib).}
+\end{center}
+
+\paragraph{1.3.2 Chemin moyen \(\langle d \rangle\)\\}
+
+\textbf{Définition} : Le chemin moyen \(\langle d \rangle\) est défini comme la longueur moyenne des plus courts chemins entre toutes les paires de nœuds dans un réseau :
+
+\[
+\langle d \rangle = \frac{2}{N (N - 1)} \sum_{i < j} d(i,j)
+\]
+
+où :
+
+\begin{itemize}
+  \item \(N\) est le nombre total de nœuds,
+  \item \(d(i,j)\) est la plus courte distance entre les nœuds \(i\) et \(j\).
+\end{itemize}
+
+C'est la \textbf{formule exacte} du \textbf{chemin moyen} dans un graphe non orienté.
+
+Cette mesure permet de quantifier l'\textbf{efficacité globale} de la communication ou du transfert d'information à travers le réseau.
+
+\paragraph{Comportement asymptotique}
+
+Dans plusieurs modèles de réseaux complexes, la longueur moyenne croît \textbf{logarithmiquement} ou \textbf{log-logarithmiquement} avec le nombre de nœuds \(N\).
+
+\begin{itemize}
+  \item \textbf{Réseaux aléatoires de Erdős--Rényi} :
+\end{itemize}
+
+\[
+\langle d \rangle \sim \frac{\log N}{\log \langle k \rangle}
+\]
+
+où \(\langle k \rangle\) est le degré moyen du réseau :
+
+\[
+\langle k \rangle = \frac{1}{N} \sum_{i=1}^N k_i = \frac{2L}{N}
+\]
+
+\paragraph{Réseaux petits mondes de Watts--Strogatz} : similaire à Erdős--Rényi, mais avec un \textbf{coefficient de clustering élevé}.
+
+\paragraph{Réseaux sans échelle (Barabási--Albert)} :
+
+Lorsque \(2 < \gamma < 3\), on a :
+
+\[
+\langle d \rangle \sim \frac{\log N}{\log \log N}
+\]
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{FIGURES/media/image16.png}
+
+\emph{figure :  Chemins multiples entre A et B, le plus court en rouge, les autres en bleu. Généré par Python.}
+\end{center}
+
+\paragraph{1.3.3 Coefficient de clustering (ou regroupement) \(C\)}
+
+\textbf{Définition} : Mesure la tendance des nœuds d'un réseau à former des groupes ou triangles. Par exemple, si un nœud \(A\) est « ami » avec deux autres nœuds \(B\) et \(C\), le coefficient indique la probabilité que \(B\) et \(C\) soient aussi connectés entre eux (exemple pour faciliter la compréhension).
+
+Pour un nœud \(i\) ayant \(k_i\) voisins, le \textbf{coefficient de clustering local} est défini par :
+
+\[
+C_i = \frac{2 E_i}{k_i (k_i - 1)}
+\]
+
+où :
+
+\begin{itemize}
+  \item \(E_i\) est le nombre de liens existants entre les \(k_i\) voisins,
+  \item \(k_i (k_i - 1)/2\) est le nombre maximal de liens possibles entre ces voisins,
+  \item \(C_i \in [0,1]\).
+\end{itemize}
+
+Pour l'ensemble du réseau, le coefficient de clustering global \(C\) correspond à la moyenne des coefficients locaux :
+
+\[
+C = \frac{1}{N} \sum_{i=1}^N C_i
+\]
+
+\begin{center}
+\includegraphics[width=0.60\textwidth]{FIGURES/media/image17.png}
+\emph{\\figure : Clustering local et global dans un graphe simple, généré par Python.}
+\end{center}
+
+\textbf{1.4 Exemples de réseaux réels}
+
+Les \textbf{réseaux complexes} sont omniprésents dans la nature, la
+technologie et la société. Voici quelques exemples emblématiques de
+réseaux réels :
+
+
+\paragraph{Réseaux sociaux:}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Exemples :} Facebook, Twitter, LinkedIn
+  \item \textbf{Nœuds :} individus
+  \item \textbf{Liens :} relations d'amitié, abonnements, interactions
+\end{itemize}
+
+\paragraph{ Réseaux biologiques:}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Exemples :} réseau métabolique, réseau de régulation génétique, réseau neuronal
+  \item \textbf{Nœuds :} molécules, gènes, neurones
+  \item \textbf{Liens :} interactions biochimiques ou synaptiques
+\end{itemize}
+
+\paragraph{Réseaux technologiques:}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Exemples :} Internet (au niveau des routeurs), réseau électrique, réseau de transport
+  \item \textbf{Nœuds :} routeurs, stations électriques, aéroports
+  \item \textbf{Liens :} connexions physiques ou logiques (câbles, lignes, vols)
+\end{itemize}
+
+\paragraph{Réseaux d'information:}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Exemple :} le Web (\emph{WWW})
+  \item \textbf{Nœuds :} pages web
+  \item \textbf{Liens :} hyperliens entre pages
+\end{itemize}
+
+\begin{center}
+  \includegraphics[width=0.65\textwidth]{FIGURES/media/image18.png}
+  \emph{\\figure : Réseau neuronal du ver \emph{C. elegans} généré avec Python }
+\end{center}
+\begin{center}
+  \includegraphics[width=0.6\textwidth]{FIGURES/media/image19.png}
+  \emph{\\figure : Statistiques du réseau neuronal du ver \emph{C. elegans}.}
+\end{center}
+\newpage
+
+\begin{center}
+    \section*{\\ Chapitre 2 :\\ Les Réseaux Sans Echelle}
+    \vspace{2em}
+\end{center}
+\newpage
+
+Dans de nombreux systèmes naturels et technologiques, la structure des réseaux est souvent dominée par un nombre restreint de nœuds très connectés (hubs), tandis que la majorité des nœuds présente un faible degré. Par exemple, le \textit{World Wide Web} comporte certains sites (portails, moteurs de recherche) recevant des milliers, voire des millions de liens entrants, alors que la plupart des pages ne comptent que peu de renvois.
+
+De telles observations suggèrent que la distribution des degrés n’est pas homogène — contrairement au modèle d’Erdős–Rényi — mais suit une loi de puissance de la forme :
+\[
+P(k) \propto k^{-\gamma}
+\]
+où \( P(k) \) désigne la probabilité qu’un nœud ait exactement un degré \( k \), et où \( \gamma \), généralement compris entre 2 et 3 dans de nombreux cas empiriques, caractérise la décroissance de cette distribution.
+
+Cette loi implique qu’il n’existe pas de degré « typique » au sens d’une décroissance rapide : il subsiste toujours une probabilité non négligeable d’observer des nœuds de degré élevé, ce qui confère aux réseaux sans échelle des propriétés particulières (robustesse face aux pannes aléatoires, sensibilité aux attaques ciblées, dynamiques de diffusion spécifiques, etc.).
+
+Barabási et Albert (1999)\footnote{A.-L. Barabási et R. Albert, ``Emergence of scaling in random networks'', \textit{Science}, 1999.} ont montré que le \textit{World Wide Web} présente une distribution de degrés entrants suivant approximativement une loi de puissance, avec un exposant \( \gamma \approx 2{,}1\text{--}2{,}2 \), illustrant ce comportement à \textbf{queue lourde} et ses implications en matière de résilience et de propagation de l’information.
+
+\newpage
+\section{Loi de puissance et distributions de degré}
+
+\subsection{Définition}
+
+Un réseau est dit \textbf{sans échelle (scale-free)} lorsque la distribution des degrés suit une \textbf{loi de puissance (power law)} de la forme :
+\[
+P(k) = Ck^{-\gamma}
+\]
+où :
+\begin{itemize}
+    \item \( P(k) \) est la probabilité qu'un nœud ait un degré \( k \)
+    \item \( C \) est une constante de normalisation déterminée par les conditions initiales
+    \item \( k \) est le degré d’un nœud
+    \item \( \gamma \) est l’exposant, souvent entre 2 et 3
+\end{itemize}
+
+Si l'on représente la fréquence des degrés sur un graphique en échelle logarithmique double (log-log), on obtient approximativement une ligne droite de pente \( -\gamma \).
+
+Pour mieux comprendre les propriétés des réseaux sans échelle, il est nécessaire de définir la distribution de la loi de puissance en termes plus précis, car ces paramètres influent directement sur les propriétés globales du réseau (hétérogénéité, robustesse, vulnérabilité, diffusion, etc.).
+
+\subsection{Formalisme discret}
+
+Comme les degrés sont des entiers positifs, la probabilité qu’un nœud ait un degré \( k \) est donnée par :
+\[
+p(k) = Ck^{-\gamma} \quad \text{(équation 2.1)}
+\]
+La constante \( C \) est déterminée par la condition de normalisation :
+\[
+\sum_{k=1}^\infty p(k) = 1 \Rightarrow C = \left( \sum_{k=1}^\infty k^{-\gamma} \right)^{-1} = \frac{1}{\zeta(\gamma)}
+\]
+où \( \zeta(\gamma) \) est la fonction zêta de Riemann :
+\[
+\zeta(\gamma) = \sum_{k=1}^\infty \frac{1}{k^\gamma}
+\]
+Ainsi, on a :
+\[
+P(k) = \frac{k^{-\gamma}}{\zeta(\gamma)} \quad \text{(équation 2.3)}
+\]
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{FIGURES/media/image20.png}
+\caption{Comportement de la fonction zêta de Riemann \( \zeta(\gamma) \) pour \( \gamma > 1 \)}
+\end{figure}
+
+\textbf{Remarque :} Pour \( k = 0 \), la loi diverge car \( k^{-\gamma} \rightarrow \infty \). Il est donc préférable de considérer uniquement \( k \geq 1 \), ou de spécifier séparément la probabilité \( p_0 \) pour les nœuds isolés.
+
+\subsection{Formalisme continu}
+
+On suppose que \( k \) est réel, donc :
+\[
+\int_{k_{\min}}^{\infty} Ck^{-\gamma} \, dk = 1
+\Rightarrow C = (\gamma - 1)k_{\min}^{\gamma - 1}
+\]
+Ce qui donne la distribution continue :
+\[
+P(k) = (\gamma - 1)k_{\min}^{\gamma - 1}k^{-\gamma}, \quad k \geq k_{\min}, \quad \gamma > 1
+\]
+
+\begin{itemize}
+    \item \( k_{\min} \) : degré minimal observé dans le réseau
+    \item \( P(k) \) en continu : probabilité qu’un nœud ait un degré dans un intervalle infinitésimal autour de \( k \)
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{FIGURES/media/image21.jpg}
+\caption{Comparaison entre une distribution de Poisson (réseau aléatoire) et une loi de puissance (réseau sans échelle)}
+\end{figure}
+
+On observe :
+\begin{itemize}
+    \item Pour \( k \) petit : la loi de puissance est au-dessus de la loi de Poisson $\Rightarrow$ plus de nœuds à faible degré.
+    \item Autour de \( \langle k \rangle \) : la loi de Poisson prédomine.
+    \item Pour \( k \) grand : la loi de puissance reste au-dessus  présence de hubs dans les réseaux sans échelle.
+\end{itemize}
+
+\newpage
+\newpage
+\section*{2.2 Effet de la taille du réseau sur le degré maximal}
+
+Tous les réseaux réels sont finis. Certains systèmes peuvent cependant atteindre une très grande taille, avec un nombre de nœuds \(\mathbf{N}\) pouvant atteindre environ \(10^{12}\). Par exemple, le World Wide Web (WWW) compte plus d'un trillion (c'est-à-dire \(10^{12}\)) de pages web indexées~\cite{ref7}, et il existe aussi des systèmes avec une taille moyenne (ex. \(10^{4}\)) ou petite. Cela soulève une question importante : comment la taille du réseau affecte-t-elle la taille de ses hubs\textsuperscript{1} ?
+
+Pour répondre, nous calculons le degré maximal \(\mathbf{k_{\max}}\) pour la distribution exponentielle et la distribution en loi de puissance.
+
+\subsection*{2.2.1 Distribution exponentielle}
+
+La distribution des degrés suit la loi exponentielle :
+\[
+p_k = c\, e^{-\lambda k} \quad (2.7)
+\]
+où :
+\begin{itemize}
+  \item \(p_k\) est la probabilité qu’un nœud ait un degré \(k\),
+  \item \(c\) est la constante de normalisation,
+  \item \(\lambda > 0\) est le paramètre de taux qui contrôle la décroissance exponentielle,
+  \item \(k\) est une variable discrète (ex. \(k=0,1,2,\ldots\)) ou continue selon le formalisme choisi.
+\end{itemize}
+
+\subsubsection*{2.2.1.1 Formalisme discret}
+
+Pour un réseau avec un degré minimal \(k_{\min}\), la condition de normalisation impose :
+\[
+\sum_{k = k_{\min}}^{\infty} p_k = \sum_{k = k_{\min}}^{\infty} c\, e^{-\lambda k} = 1
+\]
+
+Cette série géométrique a pour raison \(r = e^{-\lambda}\) avec \(0 < r < 1\), donc :
+\[
+\sum_{k = k_{\min}}^{\infty} e^{-\lambda k} = \frac{e^{-\lambda k_{\min}}}{1 - e^{-\lambda}}
+\]
+
+On en déduit :
+\[
+c = \frac{1 - e^{-\lambda}}{e^{-\lambda k_{\min}}} \quad (2.8)
+\]
+
+Pour calculer \(k_{\max}\), on suppose que dans un réseau de \(N\) nœuds, on s’attend à avoir au plus un nœud avec un degré supérieur ou égal à \(k_{\max}\). La probabilité d’observer un nœud avec un degré \(k \geq k_{\max}\) est donc \(\frac{1}{N}\) :
+\[
+\sum_{k = k_{\max}}^{\infty} p_k = \frac{1}{N}
+\]
+ce qui donne :
+\[
+c \sum_{k = k_{\max}}^{\infty} e^{-\lambda k} = \frac{1}{N}
+\]
+\[
+c \frac{e^{-\lambda k_{\max}}}{1 - e^{-\lambda}} = \frac{1}{N}
+\]
+
+En utilisant (2.8), on obtient :
+\[
+N e^{-\lambda k_{\max}} = e^{-\lambda k_{\min}} \implies k_{\max} = k_{\min} + \frac{\ln N}{\lambda} \quad (2.10)
+\]
+
+Ainsi, \(k_{\max}\) croît logarithmiquement avec \(N\) pour une distribution exponentielle, ce qui limite la taille des hubs.
+
+\subsubsection*{2.2.1.2 Formalisme continu}
+
+On obtient la même expression pour \(k_{\max}\) dans le formalisme continu.
+
+\subsection*{2.2.2 Distribution de puissance}
+
+Pour une loi de puissance, la distribution des degrés est donnée par :
+\[
+p(k) = C k^{-\gamma}
+\]
+
+\subsubsection*{2.2.2.1 Formalisme discret}
+
+On cherche \(k_{\max}\) tel que :
+\[
+\sum_{k = k_{\max}}^{\infty} p(k) = \frac{1}{N}
+\]
+avec 
+\[
+p(k) = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})}
+\]
+où \(\zeta(\gamma, k_{\min}) = \sum_{k = k_{\min}}^\infty k^{-\gamma}\) est la fonction zêta de Hurwitz.
+
+On a donc :
+\[
+\frac{\zeta(\gamma, k_{\max})}{\zeta(\gamma, k_{\min})} = \frac{1}{N} \implies \zeta(\gamma, k_{\max}) = \frac{\zeta(\gamma, k_{\min})}{N} \quad (2.11)
+\]
+
+Cette équation n’a pas de solution analytique simple, mais peut être résolue numériquement, par exemple via un code Python calculant la fonction zêta de Hurwitz.
+
+\subsubsection*{2.2.2.2 Formalisme continu}
+
+La probabilité qu’un nœud ait un degré supérieur à \(k_{\max}\) est :
+\[
+\int_{k_{\max}}^{\infty} p(k) \, dk = \frac{1}{N}
+\]
+avec
+\[
+p(k) = C k^{-\gamma}, \quad C = (\gamma - 1) k_{\min}^{\gamma - 1}
+\]
+
+En intégrant, on obtient :
+\[
+\int_{k_{\max}}^{\infty} C k^{-\gamma} dk = C \frac{k_{\max}^{1-\gamma}}{\gamma -1} = \frac{1}{N}
+\]
+d'où
+\[
+k_{\max}^{\gamma -1} = N k_{\min}^{\gamma -1} \implies k_{\max} = k_{\min} N^{\frac{1}{\gamma - 1}} \quad (2.13)
+\]
+
+Le degré maximal croît donc comme une loi de puissance en fonction de la taille du réseau.
+
+\subsection*{Comparaison entre réseaux aléatoires et réseaux sans échelle}
+
+\begin{itemize}
+  \item \textbf{Réseau aléatoire :} la distribution des degrés suit une loi de Poisson. La majorité des nœuds ont un degré proche de la moyenne, et les hubs très connectés sont quasi inexistants.
+  \item \textbf{Réseau sans échelle :} la distribution des degrés suit une loi de puissance. La plupart des nœuds ont peu de connexions, tandis qu'une petite fraction de hubs concentre un nombre très élevé de liens.
+\end{itemize}
+
+\section*{2.3 Signification de « sans échelle »}
+
+Le terme « sans échelle » provient de la physique statistique, notamment de la théorie des transitions de phase, où les lois de puissance jouent un rôle fondamental.
+
+Pour mieux comprendre, considérons les moments de la distribution des degrés.
+
+Le \(n^{\text{ème}}\) moment est défini par :
+\[
+\langle k^n \rangle = \int_{k_{\min}}^{k_{\max}} k^n p(k) \, dk
+\]
+
+En particulier, pour une loi de puissance :
+\[
+\langle k^n \rangle = C \frac{k_{\max}^{n - \gamma + 1} - k_{\min}^{n - \gamma + 1}}{n - \gamma + 1} \quad (2.14)
+\]
+
+En faisant tendre \(k_{\max} \to \infty\), on distingue deux cas :
+
+\begin{itemize}
+  \item Si \(n - \gamma + 1 < 0\), alors \(\lim_{k_{\max} \to \infty} k_{\max}^{n - \gamma + 1} = 0\) et le moment est fini.
+  \item Si \(n - \gamma + 1 \geq 0\), alors \(\lim_{k_{\max} \to \infty} k_{\max}^{n - \gamma + 1} = +\infty\) et le moment diverge.
+\end{itemize}
+
+Ainsi, tous les moments d’ordre \(n \geq \gamma - 1\) sont infinis.
+
+\subsubsection*{Exemples pour différents intervalles de \(\gamma\)}
+
+\begin{itemize}
+  \item \(1 < \gamma < 2\) :
+  \[
+  n = 1 \implies \langle k \rangle \text{ diverge}, \quad n = 2 \implies \langle k^2 \rangle \text{ diverge}
+  \]
+
+  \item \(2 \leq \gamma < 3\) :
+  \[
+  n = 1 \implies \langle k \rangle \text{ fini}, \quad n = 2 \implies \langle k^2 \rangle \text{ diverge}
+  \]
+
+  \item \(\gamma \geq 3\) :
+  \[
+  n = 1 \implies \langle k \rangle \text{ fini}, \quad n = 2 \implies \langle k^2 \rangle \text{ fini}
+  \]
+\end{itemize}
+
+En résumé, le comportement des réseaux sans échelle est sensible à la valeur de l’exposant \(\gamma\). Théoriquement, le régime le plus intéressant est \(\displaystyle 2 \leq \gamma < 3\), où le second moment diverge.
+
+\newpage
+
+
+\title{Chapitre 3 : Le Modèle de Configuration d’un Réseau Sans Échelle}
+\author{}
+\date{}
+
+
+\maketitle
+\newpage
+\section{Introduction}
+
+Le modèle de configuration construit un réseau dont les nœuds ont des degrés prédéfinis. Dans ce modèle, on attribue à chaque nœud un degré $k_i$. L’algorithme de génération suit les étapes suivantes :
+
+\begin{enumerate}
+    \item Attribuer un degré à chaque nœud, représenté par des demi-liens. La séquence des degrés est générée analytiquement à partir d'une distribution $p(k)$. La somme des degrés doit être un nombre pair, soit $2m$.
+    \item Sélectionner au hasard une paire de demi-liens et les connecter. Répéter cette opération avec les demi-liens restants jusqu’à ce que tous soient connectés.
+    \item L’ordre de sélection des demi-liens conduit à différents réseaux, certains avec des cycles, d'autres avec des boucles ou des arêtes multiples.
+\end{enumerate}
+
+\section{Visualisation d’un graphe aléatoire avec séquence de degrés prescrite}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{FIGURES/media/image22.png}
+    \caption{Nœuds avec demi-liens représentant un degré prédéfini (A), et (B) configuration obtenue après câblage aléatoire des nœuds de (A). }
+\end{figure}
+
+
+
+\begin{longtable}{|p{0.45\textwidth}|p{0.5\textwidth}|}
+\hline
+\textbf{Élément observé} & \textbf{Présence dans le graphe} \\
+\hline
+Boucle (self-loop) & \checkmark{} Présente au niveau du nœud 5. \\
+\hline
+Arêtes multiples & \checkmark\ Entre les couples de nœuds 6-10 et 8-10. \\
+\hline
+Cycles & \checkmark\ Par exemple : 4 $\rightarrow$ 8 $\rightarrow$ 9 $\rightarrow$ 4. \\
+\hline
+\end{longtable}
+
+\vspace{1em}
+
+\noindent Séquence de degrés : $K_1 = 1,\ K_2 = 2,\ \ldots,\ K_{10} = 11$
+
+\[
+\sum_{i=1}^{10} k_i = 56\quad \text{(pair)}
+\]
+
+Ce type de graphe illustre les caractéristiques d'une construction aléatoire basée uniquement sur la séquence de degrés, sans contraintes supplémentaires. Ainsi, des boucles, des liens multiples et des cycles peuvent apparaître naturellement.
+\\Le modèle de configuration permet de générer un réseau possédant une séquence de degrés prédéfinie, où chaque nœud a un degré ki  , tandis que la connectivité entre nœuds est établie de manière aléatoire. Par conséquent, ce réseau est couramment désigné sous le nom de « Réseau Aléatoire à Séquence de Degrés Fixée ».
+
+\section{Probabilité d’un lien dans le modèle de configuration}
+
+Une propriété centrale du modèle est la probabilité $p_{ij}$ d’apparition d’un lien entre deux sommets $i$ et $j$.
+
+Si $k_i > 0$ et $k_j > 0$, alors :
+
+\[
+p_{ij} = \frac{k_i k_j}{2m - 1} \approx \frac{k_i k_j}{2m} \tag{3.1}
+\]
+
+La probabilité d’avoir deux arêtes entre $i$ et $j$ est :
+
+\[
+p_{ij}^{(2)} \approx \frac{(k_i - 1)(k_j - 1)}{2m}
+\]
+
+Ainsi, la probabilité d’avoir des liens multiples devient :
+
+\[
+p_{ij} \cdot p_{ij}^{(2)} = \frac{k_i k_j}{2m} \cdot \frac{(k_i - 1)(k_j - 1)}{2m}
+\]
+
+Le nombre total attendu de liens multiples dans le réseau est :
+
+\[
+\frac{1}{2(2m)^2} \sum_{i,j} k_i k_j (k_i - 1)(k_j - 1) = \frac{1}{2} \left( \frac{\langle k^2 \rangle - \langle k \rangle}{\langle k \rangle} \right)^2 \tag{3.2}
+\]
+
+Avec :
+\[
+\langle k \rangle = \frac{1}{N} \sum_{i=1}^{N} k_i \quad , \quad \langle k^2 \rangle = \frac{1}{N} \sum_{i=1}^{N} k_i^2
+\]
+
+Une autre façon d’obtenir (3.1) est de remarquer que le nombre total d’arêtes possibles est :
+
+\[
+\binom{2m}{2} = \frac{2m(2m - 1)}{2} = m(2m - 1)
+\]
+
+Et il existe $k_i k_j$ façons de connecter $i$ à $j$, donc :
+
+\[
+p_{ij} = \frac{k_i k_j}{m(2m - 1)} \quad \text{(m fois plus petit que (3.1))}
+\]
+
+\paragraph{Probabilité d’une boucle (self-loop)} :
+
+\[
+p_{ii} = \frac{\binom{k_i}{2}}{2m} = \frac{k_i (k_i - 1)}{4m} \tag{3.3}
+\]
+
+\[
+\sum_i p_{ii} = \frac{\langle k^2 \rangle - \langle k \rangle}{2 \langle k \rangle} \tag{3.4}
+\]
+
+\paragraph{Nombre attendu de voisins communs entre $i$ et $j$} :
+
+\[
+n_{ij} = \sum_{l} \frac{k_i k_l}{2m} \cdot \frac{k_j(k_l - 1)}{2m}
+\]
+
+\[
+n_{ij} = p_{ij} \cdot \frac{\langle k^2 \rangle - \langle k \rangle}{\langle k \rangle} \tag{3.5}
+\]
+\noindent Cette expression montre que la probabilité de partager un voisin commun dépend de $p_{ij}$ et des propriétés globales de la distribution des degrés.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{FIGURES/media/image23.png}
+    \caption{Exemple d’un réseau avec 10 nœuds où les deux nœuds blancs (i et j) partagent des voisins communs (en bleu ciel).}
+\end{figure}
+Le modèle de configuration consiste à donner un degré prédéfini à chaque
+nœud selon une distribution donne, par exemple distribution sans
+échelle, Donc comment générer une distribution des degrés suivre une loi
+sans échelle~?
+\newpage 
+\section*{3.4 Simulation d'une variable aléatoire}
+
+Sur un ordinateur, dans la plupart des langages de programmation, on dispose d'une primitive appelée \texttt{rand} permettant de générer des suites de nombres pseudo-aléatoires. L’exécution de cette fonction permet de remplir $N$ variables $X(i)$, assimilables à $N$ tirages indépendants suivant une loi uniforme sur l’intervalle $[0,1]$.
+
+Cependant, dans les applications de simulation liées à des problèmes réels, les variables aléatoires modélisées ne suivent pas nécessairement une loi uniforme. Il est donc nécessaire de transformer les tirages issus de \texttt{rand} pour obtenir des variables suivant d’autres lois de probabilité.
+
+\subsection*{3.4.1 Méthode de la transformation inverse}
+
+Soit $X$ une variable aléatoire suivant une loi de densité $f(x)$ sur $[a, b]$. Sa fonction de répartition est :
+
+\[
+F(x) = \int_{a}^{x} f(t) dt
+\]
+
+Puisque $0 \leq F(x) \leq 1$, on peut associer à chaque variable uniforme $\mu \in [0,1]$ une variable $X$ via :
+
+\[
+\mu = F(\xi) \quad \Rightarrow \quad \xi = F^{-1}(\mu)
+\]
+
+\vspace{0.5em}
+\noindent\textbf{Exemple : Loi exponentielle}
+
+\[
+f(x) = \lambda e^{-\lambda x}, \quad x \geq 0
+\]
+
+Sa fonction de répartition est :
+
+\[
+F(x) = \int_{0}^{x} \lambda e^{-\lambda t} dt = 1 - e^{-\lambda x}
+\]
+
+D'où :
+
+\[
+\mu = 1 - e^{-\lambda \xi} \quad \Rightarrow \quad \xi = -\frac{\log(1 - \mu)}{\lambda}
+\]
+
+Ainsi, $\mu \sim \mathcal{U}[0,1] \Rightarrow \xi \sim \text{Exp}(\lambda)$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{FIGURES/media/image24.png}
+    \caption{Fonction de densité et fonction de répartition de la loi exponentielle.}
+\end{figure}
+
+\vspace{1em}
+\noindent\textbf{Exemple : Loi de puissance}
+
+Pour générer une variable aléatoire $k$ suivant une loi de puissance :
+
+\[
+p(k) = C k^{-\gamma}, \quad \text{où } C = (\gamma - 1) k_{\min}^{\gamma - 1}
+\]
+
+La fonction de répartition est :
+
+\[
+P(k) = \int_{k}^{\infty} C t^{-\gamma} dt = \left( \frac{k}{k_{\min}} \right)^{-(\gamma - 1)} \Rightarrow \mu = \left( \frac{\xi}{k_{\min}} \right)^{-(\gamma - 1)}
+\]
+
+On en déduit l’expression de $\xi$ :
+
+\begin{equation}
+\xi = k_{\min} \mu^{\frac{1}{1 - \gamma}} \tag{3.10}
+\end{equation}
+
+Cependant, cette expression seule n’est pas suffisante, car elle peut générer des degrés supérieurs au nombre total de nœuds $N$ dans le réseau. Pour éviter cela, une méthode de discrétisation contrôlée est nécessaire.
+
+\subsection*{3.4.2 Génération du degré d’un nœud}
+
+Une méthode alternative consiste à définir le degré d’un nœud $i$ selon :
+
+\[
+k_i = k_{\min} \left( \frac{N}{i} \right)^{\frac{1}{\gamma - 1}}
+\]
+
+Les nœuds dont le degré appartient à l’intervalle $[k_i - \varepsilon, k_i + \varepsilon]$ vérifient :
+
+\[
+k_i - \varepsilon < k_{\min} \left( \frac{N}{i} \right)^{\frac{1}{\gamma - 1}} < k_i + \varepsilon
+\]
+
+On en déduit que l'indice $i$ doit vérifier :
+
+\[
+N \left( \frac{k_{\min}}{k_i - \varepsilon} \right)^{\gamma - 1} < i < N \left( \frac{k_{\min}}{k_i + \varepsilon} \right)^{\gamma - 1}
+\]
+
+Par conséquent, le nombre de nœuds ayant un degré dans l’intervalle $[k_i - \varepsilon, k_i + \varepsilon]$ est :
+
+\begin{equation}
+N_{k_i} = N \left[ \left( \frac{k_{\min}}{k_i - \varepsilon} \right)^{\gamma - 1} - \left( \frac{k_{\min}}{k_i + \varepsilon} \right)^{\gamma - 1} \right] \tag{3.13}
+\end{equation}
+
+Lorsque $\varepsilon \to 0$, on a :
+
+\[
+\left[ \frac{1}{(k_i - \varepsilon)^{\gamma - 1}} - \frac{1}{(k_i + \varepsilon)^{\gamma - 1}} \right] \approx -\frac{d}{dk_i} \left( \frac{1}{k_i^{\gamma - 1}} \right)
+= (\gamma - 1) k_i^{-\gamma}
+\]
+
+En remplaçant dans (3.13), on obtient la densité :
+
+\begin{equation}
+P(k_i) = (\gamma - 1) k_{\min}^{\gamma - 1} k_i^{-\gamma} \tag{3.15}
+\end{equation}
+
+Cela montre que la séquence des degrés générée par la formule de $k_i$ suit bien une loi de puissance, tout en respectant la contrainte $k_i \leq N$.
+
+La valeur maximale du degré est atteinte pour $i = 1$, ce qui donne :
+
+\[
+k_{\max} = k_{\min} N^{\frac{1}{\gamma - 1}}
+\]
+
+en cohérence avec l'expression théorique.
+
+\newpage
+\section{Modèle à Paramètre Caché}
+
+\subsection{Loi de puissance}
+
+Le modèle de configuration peut générer des auto-boucles et des liens multiples, des caractéristiques souvent absentes dans les réseaux réels. Le \textbf{modèle à paramètre caché} permet de générer des réseaux aléatoires avec une distribution de degré prédéfinie $p_k$ tout en évitant ces artefacts.
+
+On commence avec $N$ nœuds isolés. À chaque nœud $i$, on associe un paramètre caché $k_i$ tiré d'une distribution $p_k$. Ce paramètre représente le degré moyen du nœud. La nature du réseau généré dépend de la séquence $\{k_i\}$.
+
+Dans notre cas, cette distribution est une loi de puissance :
+\[
+k_i = k_{\min} \left( \frac{N}{i} \right)^{\frac{1}{\gamma - 1}}
+\]
+
+avec $i = 1, 2, ..., N$, $k_{\min}$ le degré minimal, et $\gamma > 1$ l'exposant de la loi.
+
+\subsection{Distribution des degrés}
+
+Les degrés réels suivent une distribution de Poisson autour de $k_i$ :
+\[
+P(k|k_i) = \frac{k_i^k e^{-k_i}}{k!}
+\]
+
+La distribution totale est obtenue par sommation :
+\begin{equation}
+p_k = \frac{1}{N} \sum_{i=1}^N P(k|k_i) = \frac{1}{N} \cdot \frac{\sum_i k_i^k e^{-k_i}}{k!}
+\tag{3.16}
+\end{equation}
+
+Si $k_i$ suit une loi de puissance $p(k_i) \sim k_i^{-\gamma}$, alors la distribution globale $p_k$ hérite également d’un comportement asymptotique en loi de puissance :
+\begin{equation}
+p_k \propto \sum_{k_i} \frac{k_i^k e^{-k_i}}{k!} k_i^{-\gamma}
+\tag{3.17}
+\end{equation}
+
+\section{Modèle de Chung–Lu}
+
+Le \textbf{modèle de Chung–Lu} est un modèle aléatoire qui génère un réseau à partir d'une séquence de degrés attendus $\{k_i\}$.
+
+\subsection{Définition}
+
+La probabilité de connexion entre deux nœuds $i$ et $j$ est donnée par :
+\[
+P_{ij} = \frac{k_i k_j}{\sum_{p=1}^N k_p}
+\]
+avec la condition $P_{ij} \leq 1$.
+
+Ce modèle garantit que le degré moyen du nœud $i$ est $k_i$ tout en évitant l'apparition systématique de boucles et de multi-liens.
+
+\subsection{Procédure de génération}
+
+\begin{enumerate}[noitemsep]
+    \item Définir la séquence $\{k_i\}$ selon la distribution souhaitée (par exemple, loi de puissance).
+    \item Calculer la somme $K = \sum_{p=1}^N k_p$.
+    \item Pour chaque paire $(i, j)$, créer un lien avec la probabilité $P_{ij}$.
+\end{enumerate}
+
+\subsection{Remarques}
+
+Ce modèle est efficace pour générer de grands réseaux aléatoires avec une distribution de degrés contrôlée, mais ne garantit pas que les degrés réels soient exactement égaux aux $k_i$.
+
+\newpage
+\section*{Résumé Comparatif}
+
+\renewcommand{\arraystretch}{1.4}
+\footnotesize
+
+\begin{center}
+\begin{tabularx}{\textwidth}{|>{\hsize=1\hsize}X|X|X|X|}
+\hline
+\textbf{Critère} & \textbf{Modèle de Configuration} & \textbf{Modèle de Paramètre Caché} & \textbf{Modèle de Chung--Lu} \\
+\hline
+
+\textbf{Principe} &
+Fixe la séquence exacte des degrés $\{k_i\}$ &
+Associe un paramètre caché (fitness) $k_i$ à chaque nœud &
+Probabilité de lien basée sur les degrés attendus $k_i$ (non fixes) \\
+\hline
+
+\textbf{Construction du réseau} &
+Appariement aléatoire de demi-liens selon $\{k_i\}$ &
+Génère des degrés suivant une distribution avec moyenne $k_i$ &
+Lien entre $i$ et $j$ avec $P_{ij} = \frac{k_i k_j}{\sum_{p=1}^N k_p}$ \\
+\hline
+
+\textbf{Distribution des degrés} &
+Exacte (par construction) &
+Approximative (Poisson centrée sur $k_i$) &
+Approximative (degré moyen proche de $k_i$) \\
+\hline
+
+\textbf{Auto-boucles / multi-liens} &
+Présents, possibles naturellement &
+Absents ou négligeables &
+Négligeables si $P_{ij} \leq 1$ \\
+\hline
+
+\textbf{Complexité algorithmique} &
+$O(m)$ avec $m$ le nombre d’arêtes &
+Variable selon la méthode &
+$O(N^2)$ (naïf, mais optimisable) \\
+\hline
+
+\textbf{Contrôle des corrélations} &
+Peu ou pas (liens aléatoires) &
+Possibles via les paramètres cachés &
+Dépend uniquement de la distribution de $k_i$ \\
+\hline
+
+\textbf{Adapté pour} &
+Réseaux avec séquence de degrés exacte &
+Modélisation théorique locale précise &
+Simulation rapide de réseaux à distribution ciblée \\
+\hline
+
+\textbf{Exemples d’usage} &
+Analyse de réseaux réels à degrés connus &
+Réseaux influencés par des « fitness » &
+Simulations numériques à grande échelle \\
+\hline
+\end{tabularx}
+\end{center}
+\newpage
+
+
+\textbf{Remarques :}
+\begin{itemize}[noitemsep]
+    \item Le modèle de configuration respecte strictement la séquence des degrés, au prix de liens redondants.
+    \item Le modèle à paramètre caché permet une flexibilité analytique et évite les artefacts.
+    \item Le modèle de Chung–Lu est adapté à la simulation de très grands réseaux avec contrôle global.
+\end{itemize}
+\newpage
+\begin{center}
+\vspace{2em}
+    {\LARGE \textbf{Chapitre 4}}\\[0.5em]
+    {\huge \textbf{Hubs}}\\[1em]
+    \rule{\textwidth}{0.4pt}
+\end{center}
+\vspace{2em}
+
+\newpage
+\section*{Introduction}
+
+Dans le contexte des réseaux complexes, en particulier ceux caractérisés par une distribution en loi de puissance — tels que les réseaux sans échelle —, l’un des traits topologiques les plus remarquables est l’émergence spontanée de nœuds extrêmement connectés, appelés \textit{hubs}. Ces nœuds occupent une position stratégique dans le réseau : ils assurent la cohésion structurelle, facilitent la diffusion rapide de l’information et influencent fortement des phénomènes dynamiques tels que la robustesse ou la propagation des défaillances.
+
+L’origine des hubs réside dans la forte hétérogénéité de la distribution des degrés. Contrairement aux réseaux homogènes, à l’image des graphes aléatoires de type Erdős–Rényi où les degrés sont relativement uniformes, les réseaux sans échelle présentent une grande disparité : une minorité de nœuds concentre une part significative des connexions, tandis que la majorité demeure faiblement connectée.
+
+Cette concentration des liens se manifeste naturellement dans plusieurs des modèles étudiés précédemment :
+\begin{itemize}
+  \item Dans le \textbf{modèle de configuration}, les hubs sont explicitement définis par la séquence de degrés $\{k_i\}$, où certains $k_i$ peuvent atteindre des valeurs élevées.
+  
+  \item Dans le \textbf{modèle à paramètre caché}, les degrés attendus $k_i$ sont tirés d’une loi de puissance. Les nœuds associés à de fortes valeurs de $k_i$ possèdent ainsi une probabilité significativement plus élevée de devenir des hubs.
+
+  \item Dans le \textbf{modèle de Chung--Lu}, bien que la génération des arêtes repose sur un processus probabiliste, la probabilité de connexion $P_{ij} = \dfrac{k_i k_j}{\sum\limits_{p=1}^N k_p}$ favorise fortement les nœuds ayant de grands degrés attendus.
+\end{itemize}
+
+Ces différentes approches convergent vers un constat commun : les hubs ne sont pas des anomalies structurelles, mais des éléments fondamentaux des réseaux complexes, à la fois prévisibles et structurants.
+
+\vspace{1em}
+\noindent
+Dans ce chapitre, nous nous intéressons à la quantification de ces nœuds hautement connectés. En particulier, nous chercherons à répondre à la question suivante : \textbf{comment définir et estimer, de manière rigoureuse, la moyenne du nombre de hubs dans un réseau donné ?}
+\newpage
+\section{Notre approche}
+
+Les réseaux sans échelle (\textit{scale-free}) se distinguent par une distribution des degrés suivant une loi de puissance de la forme :
+
+\begin{equation}
+    p(k) = C \cdot k^{-\gamma}
+\end{equation}
+
+où $\gamma$ est un paramètre généralement compris entre 2 et 3. Ces réseaux sont caractérisés par la présence de nœuds fortement connectés appelés \textit{hubs}, ainsi que par une hétérogénéité structurelle marquée. Deux grandeurs fondamentales permettent de caractériser cette structure : le degré du hub $k_{\text{hub}}$, représentant le nœud le plus connecté, et le degré minimal $k_{\min}$, borne inférieure des degrés présents dans le réseau.
+
+L’objectif de cette section est de confronter les résultats analytiques issus de la théorie des réseaux à ceux obtenus par simulations numériques. Plus précisément, nous étudions l’évolution de $k_{\text{hub}}$ et de $k_{\min}$ en fonction de deux paramètres : la taille du réseau $N$ et l’exposant $\gamma$ de la loi de puissance.
+
+Pour cela, nous utilisons deux modèles génératifs de réseaux sans échelle :
+
+\begin{itemize}
+    \item Le \textbf{modèle de configuration}, qui permet de construire un graphe aléatoire à partir d’une séquence de degrés fixée suivant la loi de puissance $p(k) = C \cdot k^{-\gamma}$.
+    \item Le \textbf{modèle de degré attendu de Chung--Lu}, dans lequel chaque arête est ajoutée indépendamment selon une probabilité proportionnelle au produit des degrés attendus des deux nœuds :
+    \begin{equation}
+        P_{ij} = \frac{k_i k_j}{\sum\limits_{p=1}^{N} k_p}
+    \end{equation}
+\end{itemize}
+
+Les simulations sont implémentées en Python à l’aide des bibliothèques \texttt{NetworkX}, \texttt{NumPy}, \texttt{Matplotlib}, etc. La génération de la séquence de degrés repose sur la relation analytique suivante :
+
+\subsection*{Génération des degrés à partir d'une relation analytique}
+
+Pour générer une séquence de degrés obéissant à une loi de puissance, nous utilisons la formule :
+
+\begin{equation}
+    k_i = k_{\min} \left( \frac{N}{i} \right)^{\frac{1}{\gamma - 1}} \quad \text{avec } i = 1, 2, \ldots, N
+\end{equation}
+
+où $N$ est le nombre total de nœuds, $k_{\min}$ le degré minimal, et $\gamma$ l’exposant de la loi de puissance. Cette relation permet de générer une séquence décroissante de degrés $\{k_1, k_2, \ldots, k_N\}$.
+
+À chaque degré $k_i$, on associe une probabilité $p(k_i)$ définie par la loi de puissance normalisée :
+
+\begin{equation}
+    p(k_i) = C \cdot k_i^{-\gamma} \quad \text{avec} \quad C = (\gamma - 1) k_{\min}^{\gamma - 1}
+\end{equation}
+
+Ainsi, la probabilité devient :
+
+\begin{equation}
+    p(k_i) = (\gamma - 1) k_{\min}^{\gamma - 1} \cdot k_i^{-\gamma}
+\end{equation}
+
+\subsection*{Exemple illustratif pour $N = 10$, $\gamma = 2.5$ et $k_{\min} = 1$}
+
+Pour illustrer la méthode de génération, considérons les paramètres suivants :
+\begin{itemize}
+    \item Taille du réseau : $N = 10$
+    \item Exposant de la loi de puissance : $\gamma = 2.5$
+    \item Degré minimal : $k_{\min} = 1$
+\end{itemize}
+
+En appliquant la formule analytique, on obtient la séquence de degrés triés (approximativement) :
+
+\[
+K = \{4.6415,\ 2.9240,\ 2.2314,\ 1.8420,\ 1.5874,\ 1.4057,\ 1.2684,\ 1.1603,\ 1.0727,\ 1.0\}
+\]
+
+et les probabilités associées :
+
+\[
+p(k) = \{0.0050,\ 0.0160,\ 0.0315,\ 0.0509,\ 0.0738,\ 0.1001,\ 0.1294,\ 0.1616,\ 0.1967,\ 0.2345\}
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FIGURES/media/image26.png}
+        \caption{Distribution des degrés $p(k)$ en échelle normale.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FIGURES/media/image25.png}
+        \caption{Même distribution en échelle log-log.}
+    \end{subfigure}
+    \caption{Distribution théorique des degrés pour $N = 10$, $\gamma = 2.5$ et $k_{\min} = 1$.}
+    \label{fig:deg-distribution}
+\end{figure}
+
+
+Le résultat, représenté en échelle log-log (voir Figure~\ref{fig:deg-distribution}), montre une droite décroissante dont la pente est compatible avec $-\gamma = -2.5$. Ce comportement confirme la loi de puissance : les degrés élevés (hubs) sont rares et associés à de faibles probabilités, tandis que les degrés proches de $k_{\min}$ sont plus fréquents.
+
+\medskip
+
+Afin d’analyser rigoureusement ces quantités pour de grandes tailles $N$, nous adoptons dans la suite un formalisme continu permettant de dériver les expressions analytiques des moments de la distribution, ainsi que des quantités $k_{\min}$ et $k_{\text{hub}}$.
+
+
+\section{Formalisme continu et calcul des moments}
+
+\subsection{Conditions initiales}
+
+On fixe un degré minimal \(k_{\min}\) (condition initiale), par exemple \(k_{\min} = 1\).  
+Le degré maximal théorique \(k_{\max}\) est obtenu à partir de la relation analytique pour \(i=1\) dans la séquence décroissante :
+\begin{equation}
+    k_{\max} = k_{\min} \cdot N^{\frac{1}{\gamma - 1}} \,,
+    \label{eq:kmax}
+\end{equation}
+où \(N\) est le nombre total de nœuds dans le réseau.
+
+\subsection{Densité continue et constante de normalisation}
+
+On considère la densité de probabilité continue :
+\begin{equation}
+    p(k) = C \cdot k^{-\gamma} \quad \text{pour } k \in [k_{\min}, k_{\max}] \,,
+    \label{eq:pk}
+\end{equation}
+avec la constante de normalisation
+\begin{equation}
+    C = (\gamma - 1) k_{\min}^{\gamma - 1} \,,
+    \label{eq:normalisation}
+\end{equation}
+qui garantit \(\int_{k_{\min}}^{k_{\max}} p(k) \, dk = 1\) sous l'approximation d'une coupure haute \(k_{\max}\) suffisamment grande.
+
+\subsection{Premier et deuxième moments continus}
+
+Pour \(\gamma \neq 2\) et \(\gamma \neq 3\), on calcule les moments d'ordre 1 et 2 :
+
+\paragraph{Moyenne \(\langle k \rangle\) :}
+\begin{align}
+    \langle k \rangle &= \int_{k_{\min}}^{k_{\max}} k \, p(k)\, dk = C \int_{k_{\min}}^{k_{\max}} k^{1 - \gamma} \, dk \nonumber \\
+    &= C \cdot \left[ \frac{k^{2 - \gamma}}{2 - \gamma} \right]_{k_{\min}}^{k_{\max}} \nonumber \\
+    &= (\gamma - 1) k_{\min}^{\gamma - 1} \cdot \frac{k_{\max}^{2 - \gamma} - k_{\min}^{2 - \gamma}}{2 - \gamma} \,,
+    \label{eq:moment1}
+\end{align}
+
+\paragraph{Deuxième moment \(\langle k^2 \rangle\) :}
+\begin{align}
+    \langle k^2 \rangle &= \int_{k_{\min}}^{k_{\max}} k^2 \, p(k)\, dk = C \int_{k_{\min}}^{k_{\max}} k^{2 - \gamma} \, dk \nonumber \\
+    &= C \cdot \left[ \frac{k^{3 - \gamma}}{3 - \gamma} \right]_{k_{\min}}^{k_{\max}} \nonumber \\
+    &= (\gamma - 1) k_{\min}^{\gamma - 1} \cdot \frac{k_{\max}^{3 - \gamma} - k_{\min}^{3 - \gamma}}{3 - \gamma} \,,
+    \label{eq:moment2}
+\end{align}
+
+\paragraph{Quantité \(\kappa\) :}  
+On définit la quantité \(\kappa\) par le rapport des moments :
+\begin{equation}
+    \kappa = \frac{\langle k^2 \rangle}{\langle k \rangle} = \frac{2 - \gamma}{3 - \gamma} \cdot \frac{k_{\max}^{3 - \gamma} - k_{\min}^{3 - \gamma}}{k_{\max}^{2 - \gamma} - k_{\min}^{2 - \gamma}} \,.
+    \label{eq:kappa}
+\end{equation}
+
+\subsection{Définition de \(k_{m}\) et \(k_{\text{hub}}\) par tranches}
+
+On divise l'intervalle des degrés en deux tranches :
+\begin{itemize}
+    \item Tranche basse : \([k_{\min}, \kappa]\)
+    \item Tranche haute : \([\kappa, k_{\max}]\)
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{FIGURES/media/image27.png}
+    \caption{Séparation des tranches de degrés en basse \([k_{\min}, \kappa]\) et haute \([\kappa, k_{\max}]\).}
+    \label{fig:tranches_degre}
+\end{figure}
+
+\paragraph{Moyenne conditionnelle \(k_m\) (tranche basse) :}
+\begin{align}
+    k_m &= \frac{\displaystyle \int_{k_{\min}}^{\kappa} k \, p(k) \, dk}{\displaystyle \int_{k_{\min}}^{\kappa} p(k) \, dk}
+    = \frac{C \int_{k_{\min}}^{\kappa} k^{1 - \gamma} \, dk}{C \int_{k_{\min}}^{\kappa} k^{-\gamma} \, dk} \nonumber \\
+    &= \frac{\left[ \frac{k^{2 - \gamma}}{2 - \gamma} \right]_{k_{\min}}^{\kappa}}{\left[ \frac{k^{1 - \gamma}}{1 - \gamma} \right]_{k_{\min}}^{\kappa}} 
+    = \frac{\gamma - 1}{2 - \gamma} \cdot \frac{\kappa^{2 - \gamma} - k_{\min}^{2 - \gamma}}{\kappa^{1 - \gamma} - k_{\min}^{1 - \gamma}} \,,
+    \label{eq:km}
+\end{align}
+
+\paragraph{Moyenne conditionnelle \(k_{\text{hub}}\) (tranche haute) :}
+\begin{align}
+    k_{\text{hub}} &= \frac{\displaystyle \int_{\kappa}^{k_{\max}} k \, p(k) \, dk}{\displaystyle \int_{\kappa}^{k_{\max}} p(k) \, dk} 
+    = \frac{C \int_{\kappa}^{k_{\max}} k^{1 - \gamma} \, dk}{C \int_{\kappa}^{k_{\max}} k^{-\gamma} \, dk} \nonumber \\
+    &= \frac{\left[ \frac{k^{2 - \gamma}}{2 - \gamma} \right]_{\kappa}^{k_{\max}}}{\left[ \frac{k^{1 - \gamma}}{1 - \gamma} \right]_{\kappa}^{k_{\max}}} 
+    = \frac{\gamma - 1}{2 - \gamma} \cdot \frac{k_{\max}^{2 - \gamma} - \kappa^{2 - \gamma}}{k_{\max}^{1 - \gamma} - \kappa^{1 - \gamma}} \,.
+    \label{eq:khub}
+\end{align}
+
+\subsection{Remarques d'interprétation}
+
+\begin{itemize}
+    \item Les constantes \(C\) s'annulent dans les rapports, ce qui simplifie les calculs de moyennes conditionnelles.
+    \item La coupure \(\kappa\) agit comme un seuil séparant les degrés faibles des degrés forts (hubs).
+    \item Ces expressions permettent une comparaison entre les résultats analytiques (\(k_m\), \(k_{\text{hub}}\)) et les estimations issues des simulations (modèle de configuration ou Chung--Lu).
+    \item Lorsque \(\gamma > 2\) et que \(N\) est grand, \(k_{\max}\) croît comme \(N^{\frac{1}{\gamma - 1}}\), ce qui influence fortement \(\langle k^2 \rangle\) et \(\kappa\).
+\end{itemize}
+
+\subsection{Simulation et comparaison}
+
+Nous confrontons ici nos simulations (modèles de configuration et de Chung--Lu) aux résultats analytiques. Après un bref rappel du protocole (paramètres, nombre de tirages), nous présenterons et comparerons :
+\begin{itemize}
+    \item La distribution empirique des degrés versus la loi de puissance théorique, et l'évolution de $k_m$ et $k_{\text{hub}}$ en fonction de $N$ et $\gamma$
+\end{itemize}
+
+\subsubsection{Protocole de Simulation}
+
+\paragraph{Choix des paramètres}
+\begin{itemize}
+    \item Taille du réseau : $N$
+    \item Exposant de la loi de puissance : $\gamma$
+    \item Degré minimal : $k_{\min}$
+    \item Nombre de répétitions : $R$
+\end{itemize}
+
+\paragraph{Génération de la séquence $\{k_i\}$}
+\begin{equation}
+    k_i = k_{\min} \quad \text{avec } i = 1,2,3,\ldots,N
+\end{equation}
+
+\paragraph{Construction des réseaux}
+
+\textbf{Modèle de configuration}
+\begin{enumerate}
+    \item Créer $2m = \sum_{i=1}^N k_i$ demi-liens.
+    \item Apparier aléatoirement ces demi-liens en arêtes.
+\end{enumerate}
+
+\textbf{Modèle de Chung--Lu}
+
+Pour chaque paire $(i,j)$ :
+\begin{itemize}
+    \item Calculer $p_{ij} = \frac{k_i k_j}{2m}$
+    \item Tirer un nombre uniforme $x$ dans $[0,1]$.
+    \item Si $x < p_{ij}$, ajouter l'arête $\{i,j\}$
+\end{itemize}
+
+\paragraph{Calcul des quantités d'intérêt}
+\begin{itemize}
+    \item Distribution des degrés $\{K_i\}$
+    \item Moments $\langle k \rangle$, $\langle k^2 \rangle$, $\kappa$
+    \item Degrés extrêmes $k_m$ et $k_{\text{hub}}$
+\end{itemize}
+
+\paragraph{Répétition} Répéter $R$ fois et agréger les résultats (moyennes, écarts-types) pour comparer aux formules analytiques.
+
+\subsubsection{Résultats pour la Distribution des Degrés}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FIGURES/media/image28.png}
+        \caption{Distribution des degrés (Chung--Lu, $\gamma=2.5$, $N=30\,000$, 5 essais)}
+        \label{fig:degree_dist_chung_lu}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FIGURES/media/image29.png}
+        \caption{Distribution des degrés (Configuration via NetworkX, $\gamma=2.5$, $N=30\,000$, 5 essais)}
+        \label{fig:degree_dist_config}
+    \end{subfigure}
+    \caption{Comparaison des distributions de degrés entre modèles théoriques et empiriques}
+    \label{fig:degree_distributions}
+\end{figure}
+
+\textbf{Figure~\ref{fig:degree_dist_chung_lu} -- Distribution des degrés (Chung--Lu, $\gamma=2.5$, $N=30\,000$, 5 essais)}
+\begin{itemize}
+    \item \textbf{Axes log-log} : abscisse = degré $k$, ordonnée = probabilité $P(k)$.
+    \item \textbf{Courbe rouge pointillée} : distribution théorique $P(k)$
+    \item \textbf{Points bleus} : moyennes empiriques sur 5 réalisations du modèle de \textbf{Chung--Lu}.
+    \item \textbf{Observation} : pour $k$ de l'ordre de 2 à 50, les points bleus suivent très fidèlement la pente $-2.5$. En-deçà (petits $k$), on note un léger décalage dû à la coupure basse $k_{\min} = 1$. Au-delà (grands $k$), l'éparpillement et l'aplatissement de la queue traduisent l'effet de la taille finie (quelques nœuds rares atteignent de très hauts degrés).
+\end{itemize}
+
+\textbf{Figure~\ref{fig:degree_dist_config} -- Distribution des degrés (Configuration via NetworkX, $\gamma=2.5$, $N=30\,000$, 5 essais)}
+\begin{itemize}
+    \item Même format : log-log, rouge = théorie, bleu = empirique.
+    \item Ici la carte des demi-liens (configuration model) produit une distribution tout aussi conforme à la loi de puissance.
+    \item \textbf{Points bleus} : légèrement plus dispersés en queue que pour Chung--Lu, car l'appariement aléatoire de demi-liens génère parfois des petits écarts (auto-boucles et multi-arêtes) qui creusent la fréquence des très grands $k$.
+    \item \textbf{Conclusion} : les deux modèles reproduisent bien la décroissance pour les degrés intermédiaires, avec des écarts en extrémité dus aux fluctuations d'échantillonnage et aux spécificités de génération (probabiliste vs appariement de stubs).
+\end{itemize}
+\end{document}
+
+
+
